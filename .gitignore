@@ -20,6 +20,7 @@ parts/
 sdist/
 var/
 wheels/
+env/
 pip-wheel-metadata/
 share/python-wheels/
 *.egg-info/
@@ -127,3 +128,12 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# Editors
+.idea/
+.vscode/
+.tmp/
+.DS_Store
+
+ Serverless directories
+.serverless

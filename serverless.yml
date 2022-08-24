@@ -1,0 +1,73 @@
+service: eventdriven-dataflow
+
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: python3.9
+  memorySize: 512 # optional, in MB, default is 1024; can be 128, 256, 512, 1024, 2048, 4096, 5120, ...
+  timeout: 10 # optional, in seconds, default is 6
+  ecr:
+    images:
+      etl:
+        path: ./etl
+      hello:
+        path: ./hello
+      healthcheck:
+        path: ./healthcheck
+      s3_event_flow:
+        path: ./s3_event_flow
+      s3_reactive_flow:
+        path: ./s3_reactive_flow
+
+  environment:
+    PREFECT_HOME: /tmp/.prefect
+    PREFECT_API_KEY: pnu
+    PREFECT_API_URL: 'https://api.prefect.cloud/api/accounts/c5276cbb-62a2-4501-b64a-74d3d900d781/workspaces/aaeffa0e-13fa-460e-a1f9-79b53c05ab36'
+
+  iam:
+    role:
+      statements:
+        - Effect: "Allow"
+          Action:
+            - athena:*
+            - glue:*
+            - s3:*
+          Resource: "*"
+
+functions:
+  etl:
+    image:
+      name: etl
+    events:
+      - schedule: rate(1 minute)
+
+  hello:
+    image:
+      name: hello
+    events:
+      - schedule: rate(2 minutes)
+
+  healthcheck:
+    image:
+      name: healthcheck
+    events:
+      - schedule: rate(1 minute)
+  
+  s3_event_flow:
+    image:
+      name: s3_event_flow
+    events:
+      - schedule: rate(1 minute)
+
+  s3_reactive_flow:
+    image:
+      name: s3_reactive_flow
+    events:
+      - s3:
+          bucket: prefectdata
+          event: s3:ObjectCreated:*
+          rules:
+            - prefix: timeseries/
+            - suffix: .snappy.parquet
+          existing: true
