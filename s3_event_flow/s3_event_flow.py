@@ -44,8 +44,8 @@ class TimeseriesGenerator:
 
 @flow
 def upload_timeseries_data_to_s3() -> None:
-    max_val = String.load("max-value")
-    df = TimeseriesGenerator.get_timeseries(max_value=int(max_val))
+    max_val = int(String.load("max-value").value)
+    df = TimeseriesGenerator.get_timeseries(max_value=max_val)
     result = wr.s3.to_parquet(
         df,
         path=f"s3://prefectdata/timeseries/",
