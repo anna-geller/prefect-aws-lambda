@@ -22,7 +22,7 @@ provider:
 
   environment:
     PREFECT_HOME: /tmp/.prefect
-    PREFECT_API_KEY: pnu
+    PREFECT_API_KEY: prefectapikey
     PREFECT_API_URL: 'https://api.prefect.cloud/api/accounts/c5276cbb-62a2-4501-b64a-74d3d900d781/workspaces/aaeffa0e-13fa-460e-a1f9-79b53c05ab36'
 
   iam:
@@ -53,7 +53,7 @@ functions:
       name: healthcheck
     events:
       - schedule: rate(1 minute)
-  
+
   s3_event_flow:
     image:
       name: s3_event_flow
