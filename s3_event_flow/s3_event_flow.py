@@ -55,7 +55,7 @@ def upload_timeseries_data_to_s3() -> None:
         table="lambda",
     )
     logger = get_run_logger()
-    logger.info("New file uploaded: %s 🚀", result)
+    logger.info("New file uploaded: %s 🚀", result.get("paths")[0])
 
 
 def handler(event, context):

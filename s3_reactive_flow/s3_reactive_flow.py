@@ -20,6 +20,8 @@ def validate_input_data(s3_key: str) -> None:
         logger.warning(alert)
         slack_webhook_block = SlackWebhook.load("hq")
         slack_webhook_block.notify(alert)
+    else:
+        logger.info("Data validation check passed ✅")
 
 
 def handler(event, context):
