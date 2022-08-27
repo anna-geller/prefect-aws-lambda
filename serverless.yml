@@ -11,8 +11,8 @@ provider:
     images:
       etl:
         path: ./etl
-      hello:
-        path: ./hello
+      ml:
+        path: ./ml
       healthcheck:
         path: ./healthcheck
       s3_event_flow:
@@ -40,17 +40,17 @@ functions:
     image:
       name: etl
     events:
-      - schedule: rate(1 minute)
-
-  hello:
-    image:
-      name: hello
-    events:
-      - schedule: rate(2 minutes)
+      - schedule: rate(60 minutes)
 
   healthcheck:
     image:
       name: healthcheck
+    events:
+      - schedule: rate(5 minutes)
+
+  ml:
+    image:
+      name: ml
     events:
       - schedule: rate(1 minute)
 
