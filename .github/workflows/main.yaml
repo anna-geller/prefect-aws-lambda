@@ -1,9 +1,7 @@
 name: Event-driven dataflow with Prefect
 on:
   workflow_dispatch:
-#  push:
-#    branches:
-#      - master
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
