@@ -46,13 +46,13 @@ functions:
     image:
       name: healthcheck
     events:
-      - schedule: rate(5 minutes)
+      - schedule: rate(30 minutes)
 
   ml:
     image:
       name: ml
     events:
-      - schedule: rate(1 minute)
+      - schedule: rate(15 minutes)
 
   s3_event_flow:
     image:
