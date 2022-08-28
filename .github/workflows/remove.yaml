@@ -1,0 +1,22 @@
+name: Remove all AWS resources created from this project
+on:
+  workflow_dispatch:
+
+jobs:
+  remove:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set Prefect API Key in serverless.yml
+        run: sed -i 's/prefectapikey/${{ secrets.PREFECT_API_KEY }}/g' serverless.yml
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - run: npm install -g serverless
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+      - run: sls remove
