@@ -4,7 +4,7 @@ import numpy as np
 import pandas as pd
 from typing import Union
 from prefect import flow, get_run_logger
-from prefect.blocks.system import String
+from prefect.blocks.system import JSON
 
 
 class TimeseriesGenerator:
@@ -44,7 +44,8 @@ class TimeseriesGenerator:
 
 @flow
 def upload_timeseries_data_to_s3() -> None:
-    max_val = int(String.load("max-value").value)
+    dict_from_block = JSON.load("max-value").value
+    max_val = dict_from_block["threshold"]
     df = TimeseriesGenerator.get_timeseries(max_value=max_val)
     result = wr.s3.to_parquet(
         df,

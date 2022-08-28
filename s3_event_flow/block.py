@@ -1,4 +1,4 @@
-from prefect.blocks.system import String
+from prefect.blocks.system import JSON
 
-block = String(value="42")
-block.save(name="max-value", overwrite=True)
+json = JSON(value=dict(threshold=42))
+json.save(name="max-value", overwrite=True)
